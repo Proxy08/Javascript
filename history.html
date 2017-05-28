@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+ <link href="style.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+
+  <input  name="program" placeholder="search here" id="text1" list="programList" />
+  <datalist id="programList" >
+
+      <!-- options are filled in the script -->
+  </datalist>
+  <h2>History</h2>
+
+    <div  id="data">
+    </div>
+
+
+
+<script>
+//Array containing the dataList
+var programs = ["Python","JavaScript","C","Angular","PHP","Oracle","Node.js","React.js","Ruby"];
+//this empty array will store the history searchresults
+var array = [];
+
+
+//fill the option value dynamically from the array programs
+  $(programs).each( function(index, item) {
+      var option = $('<option value="'+item+'"></option>');
+    $('#programList').append(option);
+       });
+// wait for the document to be ready
+$(document).ready( function() {
+
+
+//take the value on the input text box
+  $("#text1").on('input', function () {
+      var val = this.value;
+      //from the input textbox we will use filter  to search if
+      //the value on the input is corresponding to option list on the datalist
+      //if it's true it'll return value of datalist option
+      if($('#programList option').filter(function(){
+          return this.value === val;
+      }).length) {
+          var x =this.value;
+
+           //check if the value that we search is already present is the array condition (d)
+           //-1 means element looks for not in array
+          if(array.indexOf(x)==-1){ //remove the duplicate entry
+            //If the search element is not present in the array we can push it into the Array
+            array.push(x);
+           //Then we display the contains of the array in reverse order on the html according rule (c)
+           //the last entry will be at top, descending order
+            array.reverse();
+            //join function will join element of the array into string then it will break line for each elements
+            //according to the illustration
+          var container =  document.getElementById("data").innerHTML = array.join('<br>');
+
+            //when history elements go up 6 it remove the first one so that the condition (c) should be respect
+            if (array.length >= 5){
+              //remove the first element on the array
+              //to keep it 5
+              array.shift();
+            }
+         }
+      }
+  });
+
+         });
+
+
+
+
+</script>
+
+
+</body>
+</html>
